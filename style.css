@@ -1,0 +1,90 @@
+@charset "utf-8";
+ 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box
+}
+html {
+  font-family: "Yu Gothic", "YuGothic", "Hiragino Kaku Gothic Pro", "Meiryo UI", "Meiryo", "MS PGothic", sans-serif;
+  font-size: 62.5%;
+  font-feature-settings: "palt"
+}
+.menuWrap {
+  width: 100%;
+  max-width: 740px;
+  text-align: center;
+  margin: 100px auto 0
+}
+.menuWrap .tabItem {
+  width: 200px;
+  height: 50px;
+  color: #fff;
+  font-size: 1.6rem;
+  letter-spacing: 0.09em;
+  line-height: 50px;
+  text-align: center;
+  background: #c1c1c1;
+  transition: all 0.3s ease-in-out;
+  display: inline-block;
+  cursor: pointer
+}
+.menuWrap .tabItem:hover { background: #000 }
+.menuWrap input[name="tabItem"] { display: none }
+.menuWrap .tabContent {
+  width: 100%;
+  max-width: 740px;
+  text-align: left;
+  margin-top: 60px;
+  display: none;
+  overflow: hidden
+}
+.menuWrap #dinner + label,
+.menuWrap #drink + label {
+  margin-left: 20px
+}
+.menuWrap #lunch:checked ~ #lunchContent,
+.menuWrap #dinner:checked ~ #dinnerContent,
+.menuWrap #drink:checked ~ #drinkContent {
+  display: block
+}
+.menuWrap input:checked + .tabItem { background: #000 }
+.menuWrap .tabContent p {
+  font-size: 2.4rem;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #c1c1c1
+}
+.menuWrap .tabContent dl {
+  font-size: 0;
+  padding: 20px 10px;
+  border-bottom: 1px dashed #c1c1c1
+}
+.menuWrap .tabContent dt {
+  width: calc(100% - 140px);
+  font-size: 1.6rem;
+  letter-spacing: 0.09em;
+  vertical-align: middle;
+  display: inline-block
+}
+.menuWrap .tabContent dd {
+  width: 140px;
+  font-size: 1.6rem;
+  letter-spacing: 0.09em;
+  vertical-align: middle;
+  text-align: right;
+  display: inline-block
+}
+.menuWrap .tabContent dd span { font-size: 1.3rem }
+@media screen and (max-width: 768px) {
+  .menuWrap { padding: 2rem }
+  .menuWrap .tabItem { width: 0 4% }
+  .menuWrap #dinner + label,
+  .menuWrap #drink + label {
+    margin-left: 10px
+  }
+  .menuWrap .tabContent p { font-size: 2rem }
+  .menuWrap .tabContent dl { padding: 20px 0 }
+  .menuWrap .tabContent dd span { font-size: 1.2rem }
+}
