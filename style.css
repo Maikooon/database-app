@@ -1,90 +1,87 @@
-@charset "utf-8";
- 
-* {
-  margin: 0;
+*, *:before, *:after { box-sizing: border-box; }
+html { margin: 0; font-family: arial; height: 100vh; background: #ccc; }
+
+.tab-container {
+  list-style-type: none;
   padding: 0;
-  box-sizing: border-box
-}
-html {
-  font-family: "Yu Gothic", "YuGothic", "Hiragino Kaku Gothic Pro", "Meiryo UI", "Meiryo", "MS PGothic", sans-serif;
-  font-size: 62.5%;
-  font-feature-settings: "palt"
-}
-.menuWrap {
-  width: 100%;
-  max-width: 740px;
-  text-align: center;
-  margin: 100px auto 0
-}
-.menuWrap .tabItem {
-  width: 200px;
-  height: 50px;
-  color: #fff;
-  font-size: 1.6rem;
-  letter-spacing: 0.09em;
-  line-height: 50px;
-  text-align: center;
-  background: #c1c1c1;
-  transition: all 0.3s ease-in-out;
-  display: inline-block;
-  cursor: pointer
-}
-.menuWrap .tabItem:hover { background: #000 }
-.menuWrap input[name="tabItem"] { display: none }
-.menuWrap .tabContent {
-  width: 100%;
-  max-width: 740px;
-  text-align: left;
-  margin-top: 60px;
-  display: none;
-  overflow: hidden
-}
-.menuWrap #dinner + label,
-.menuWrap #drink + label {
-  margin-left: 20px
-}
-.menuWrap #lunch:checked ~ #lunchContent,
-.menuWrap #dinner:checked ~ #dinnerContent,
-.menuWrap #drink:checked ~ #drinkContent {
-  display: block
-}
-.menuWrap input:checked + .tabItem { background: #000 }
-.menuWrap .tabContent p {
-  font-size: 2.4rem;
-  font-weight: 500;
-  letter-spacing: 0.09em;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #c1c1c1
-}
-.menuWrap .tabContent dl {
-  font-size: 0;
-  padding: 20px 10px;
-  border-bottom: 1px dashed #c1c1c1
-}
-.menuWrap .tabContent dt {
-  width: calc(100% - 140px);
-  font-size: 1.6rem;
-  letter-spacing: 0.09em;
-  vertical-align: middle;
-  display: inline-block
-}
-.menuWrap .tabContent dd {
-  width: 140px;
-  font-size: 1.6rem;
-  letter-spacing: 0.09em;
-  vertical-align: middle;
-  text-align: right;
-  display: inline-block
-}
-.menuWrap .tabContent dd span { font-size: 1.3rem }
-@media screen and (max-width: 768px) {
-  .menuWrap { padding: 2rem }
-  .menuWrap .tabItem { width: 0 4% }
-  .menuWrap #dinner + label,
-  .menuWrap #drink + label {
-    margin-left: 10px
+  margin: 60px auto;
+  max-width: 350px;
+  position: relative;
+  background: #fff;
+  ul { list-style-type: none; padding: 0; }
+  .arrows { 
+    display: block;
+    width: 60px;
+    font-size: 32px;    
+    bottom: 10px;
+    right: 0px;
+    position: absolute;
+    label { 
+      display: inline-block; 
+      cursor: pointer; 
+      color: #aaa; 
+      -webkit-user-select: none;
+      -moz-user-select: none;    
+      -ms-user-select: none;     
+      user-select: none;  
+      margin-left: 5px;      
+      &:hover { color: #333; }
+    }
   }
-  .menuWrap .tabContent p { font-size: 2rem }
-  .menuWrap .tabContent dl { padding: 20px 0 }
-  .menuWrap .tabContent dd span { font-size: 1.2rem }
+  .tab-content-container { 
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px; 
+    height: 0; 
+    opacity: 0; 
+    overflow: hidden; 
+    line-height: 22px;
+    background: #fff;
+    position: absolute;
+    top: 42px;
+    padding: 0px 40px 0 20px;
+    border: 2px solid #446CB3;
+    border-top: 0;
+    box-shadow: 0 5px 5px -5px #333;  
+    .tab-content {
+      opacity: 0;
+      padding: 15px 0;
+      min-height: 185px;  
+      transition: opacity 0.1s ease-in;    
+    }
+  }
+  .tab {
+    outline: 0;
+    float: left;
+    cursor: pointer;    
+    opacity: 1;
+    width: 25%;
+    line-height: 40px;
+    display: block;
+    margin: 0;
+    position: relative;
+    background: #446CB3;
+    color: #fff;
+    text-align: center;    
+    border-top: 2px solid #446CB3;
+    border-right: 2px solid #446CB3;
+    &.l-b { border-left: 2px solid #446CB3; }
+    &:hover { background: #365690; }          
+  }
+  .tab-toggle {
+    display: none;
+    &.active + .tab,
+    &:checked + .tab { 
+      background: #fff; 
+      color: #333; 
+    }
+    &.active ~ .tab-content-container,
+    &:checked ~ .tab-content-container { 
+      height: auto;
+      opacity: 1;
+      .tab-content { 
+        opacity: 1; 
+        label { opacity: 1; }
+      }
+    }
+  }
 }

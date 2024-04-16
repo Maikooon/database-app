@@ -1,0 +1,71 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300);
+body{
+  padding:0;
+  margin:0;
+  background:#fff;
+}
+h1{
+  text-align:center;
+  font:300 40px 'open sans',sans-serif;
+  color:#666;
+  text-transform:uppercase;
+}
+.tabs{
+  width:50%;
+  margin:10px auto;
+  position:relative;
+}
+.tab-buttons span{
+  font:400 14px 'open sans',sans-serif;
+  color:#333;
+  background:#eee;
+  cursor:pointer;
+  border-bottom:2px solid #ddd;
+  display:block;
+  width:33.3%;
+  float:left;
+  text-align:center;
+  height:40px;
+  line-height:40px;
+}
+.tab-content{
+  border-bottom:3px solid #ddd;
+  padding:15px;
+  background:#eee;
+  display:inline-block;
+  font:400 13px 'open sans',sans-serif;
+  color:#333;
+}
+#lamp{
+  width:33.3%;
+  height:2px;
+  background:#333;
+  display:block;
+  position:absolute;
+  top:40px;
+  transition: all .3s ease-in;
+-o-transition: all .3s ease-in;
+-webkit-transition: all .3s ease-in;
+-moz-transition: all .3s ease-in;
+}
+#lamp.content2{
+  left:33.3%;
+  transition: all .3s ease-in;
+-o-transition: all .3s ease-in;
+-webkit-transition: all .3s ease-in;
+-moz-transition: all .3s ease-in;
+}
+#lamp.content3{
+  left:66.6%;
+  transition: all .3s ease-in;
+-o-transition: all .3s ease-in;
+-webkit-transition: all .3s ease-in;
+-moz-transition: all .3s ease-in;
+}
+#lamp.content1{
+  left:0;
+  transition: all .3s ease-in;
+-o-transition: all .3s ease-in;
+-webkit-transition: all .3s ease-in;
+-moz-transition: all .3s ease-in;
+}
