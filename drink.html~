@@ -1,0 +1,223 @@
+
+{% extends "layout.html" %}
+
+
+{% block body %}
+<link rel="stylesheet" type ="text/css" href="css/product.css">
+
+<!-- flashメッセージを表示させる。flashメッセージにはカテゴリを設定できる。 -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+        {% if category == "error" %}
+            <div class="notification is-danger is-light">
+        {% else %}
+            <div class="notification is-success">
+        {% endif %}
+                <button class="delete"></button>
+                {{ message }}
+            </div>
+    {% endfor %}
+    {% endif %}
+	    {% endwith %}
+
+<section class="wrapper">
+    <div class="container">
+        <div class="content">
+            <h2 class="heading">DRINK</h2>
+        </div>
+    </div>
+</section>
+
+<style>
+.wrapper{
+    width:100%;
+    background-image:url(https://thumb.photo-ac.com/95/9566f31276a7bac127205675d13e60c6_t.jpeg);
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position: center center;
+}
+.wrapper .container{
+    max-width:1000px;
+    margin:0px auto;
+    padding:80px 0px;
+}
+/* content */
+.wrapper .content .heading{
+    margin:0px 0px 40px 0px;
+    color:#ffffff;
+    font-size: 48px;
+    font-weight: normal;
+    text-align: center;
+}
+@media (min-width: 992px) {
+    .wrapper .content .list {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+.wrapper .content .list-item {
+    padding:30px;
+    line-height:1.8rem;
+    color:#ffffff;
+    text-align:center;
+}
+@media (min-width: 992px) {
+    .wrapper .content .list-item {
+        width:50%;
+    }
+}
+</style>
+
+
+<!-- 検索フォーム -->
+<section class="section">
+    <div class="container">
+        <!-- 検索のタイトル -->
+        <label class="label">drink search</label>
+    <!-- テーブル名を代入 -->
+        <form action="{{url_for('drink')}}" , method="POST">
+            <div class="level">
+                <!-- Left side -->
+                <div class="level-left">
+                    <div class="level-item">
+                        <div class="field has-addons">
+                            <p class="control">
+                                <!-- インプットクラス、ヒントテキストがName, -->
+                                <input class="input" type="text" placeholder="Name" name="drinkName" value="{{query_name}}">
+                            </p>
+                            <p class="control">
+                                <button class="button">
+                                    Search
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Right side -->
+                <div class="level-right">
+                    <div class="level-item">
+                        <p class="subtitle is-5">
+                            <strong>{{ counts }}</strong> entries
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+
+<!--選択式ボタンをつける、ここでドリンクの種類を選ぶことができる-->
+<section class="section">
+    <div class="container">
+      <!-- 検索のタイトル -->
+<form action="{{url_for('drink')}}" method="POST" id="myForm">
+    <label class="label">drink type</label>
+    <div class="level">
+        <div class="level-left">
+            <div class="level-item">
+                <div class="field">
+                    <div class="control">
+                        <div class="buttons">
+                            <button class="button" type="button" onclick="submitForm('all')" id="button-all">All</button>
+                            <button class="button" type="button" onclick="submitForm('Coffee')" id="button-coffee">Coffee</button>
+                            <button class="button" type="button" onclick="submitForm('Tea')" id="button-tea">Tea</button>
+                            <button class="button" type="button" onclick="submitForm('Frap')" id="button-frap">Frap</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="selectedButton" id="selectedButton" value="">
+</form>
+
+<script>
+    function submitForm(buttonValue) {
+        document.getElementById('selectedButton').value = buttonValue;
+        document.getElementById('myForm').submit();
+    }
+
+    // ボタンのクリック時にスタイルを変更する関数
+    function highlightButton(buttonId) {
+        var buttons = document.getElementsByClassName('button');
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].classList.remove('highlight');
+        }
+        document.getElementById(buttonId).classList.add('highlight');
+    }
+
+    // ページロード時にボタンの初期スタイルを設定する
+    window.addEventListener('DOMContentLoaded', (event) => {
+        var selectedButtonValue = document.getElementById('selectedButton').value;
+        if (selectedButtonValue !== '') {
+            var buttonId = 'button-' + selectedButtonValue.toLowerCase();
+            highlightButton(buttonId);
+        }
+    });
+</script>
+
+<style>
+    .highlight {
+        background-color: yellow;
+    }
+</style>
+    </div>
+</section>
+
+<!-- カテゴリのカード -->
+<!-- セクションの開始 -->
+<section class="section">
+    <div class="container">
+        <!-- 複数行にわたって折り返される -->
+        <div class="columns is-multiline">
+	        
+                {% for emp in elist %} <!-- for文 -->
+                <!-- カラムが全体の俺ぐらいの範囲を占めるのか、ここでは1/1 -->
+            <div class="column is-full">
+                <!-- カードをクリックしたときのとび先を設定している、 従業員のIDを渡して遷移するリンク-->
+                 <a href="{{url_for('drink_master', id=emp.id)}}">
+		   <!-- ここからカード -->
+		    <div class="card" style="display: flex;background-color: #d6c6af;">
+              <!-- カードのイメージ -->
+                    <div class="card-image" style="flex: 1;" >
+                        <!-- 写真の大きさ比 -->
+                        <figure class="image is-1by1a">
+                            <!-- static内のファイルアクセスはこのように行う -->
+                            <img src="{{url_for('static', filename='pict/'+emp.pict)}}" alt="drink" loading="lazy" style ="object-fit:cover;width:150px ; height:150px;">
+               
+                        </figure>
+                    </div>
+                    <!-- カードの内容 -->
+                    <div class="card-content" style="flex: 2;">
+                        <div class="media">
+                            <div class="media-content">
+                              <!-- title名前 -->
+			       <p class="title is-4" style ="color:#000000;">{{emp.drinkName}}</p>
+                                </a>
+                            </div>
+                 </div>
+		  <div class="content">
+                            <p><strong>type :</strong> {{emp.TypTempId}}</p>
+                           
+                        </div>
+                    </div>
+                </div>
+                </a>
+            </div>
+{% endfor %}
+        </div>
+    </div>
+</section>
+
+
+
+<!-- notificationを自動的に閉じるjavascript -->
+<script>
+    $(".notification").delay(2000).slideUp();
+</script>
+
+
+{% endblock %}

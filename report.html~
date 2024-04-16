@@ -1,0 +1,479 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<!-- flashメッセージを表示させる -->
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div id="announce" class="notification is-primary">
+        <button class="delete"></button>
+        <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    
+<section class="wrapper">
+    <div class="container">
+        <div class="content">
+            <h2 class="heading"> Report </h2>
+            <div class="list">
+                </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.wrapper{
+    width:100%;
+    background-image:url("https://user0514.cdnw.net/shared/img/thumb/gori0I9A3053072102529_TP_V.jpg");
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position: center center;
+}
+
+.wrapper .container{
+    max-width:1000px;
+    margin:0px auto;
+    padding:80px 0px;
+}
+.wrapper .content .heading{
+    margin:0px 0px 40px 0px;
+    color:#ffffff;
+    font-size: 48px;
+    font-weight: normal;
+    text-align: center;
+}
+</style>
+
+
+
+
+    <section class="section">
+        <div class="container">
+            <h1 class="title">
+                レポート
+            </h1>
+            <div class="content">
+                
+	      Database name : My Cafe Database<br>
+	      このデータベースはテストアカウントとして、username =test , password= test で仕様を確かめることができます。
+            </div>
+
+            <p class="title is-2">
+                1.第3課題からの変更点とスキーマ
+            </p>
+            <div class="content">
+               データベースの変更点としては、大きく３つのテーブル、LoginUser,Favorites,Favoritesfoodの3つの追加をした。
+LoginUserテーブルはカラムとして、usename,password,birth(好きなもの、始め誕生日にしていたためこの名前だが後から変更した),pict(プロフィール用写真)を持ち、ホームエージに新しくログインするユーザ-の情報を格納したり、途中でユーザーが自分の情報を変更したい時に使用する。
+さらに残りの２つは、FavoritesとFavoritesfoodであるが、これはそれぞれdrinkとfoodのお気に入り情報を格納しておくためのものである。
+というのも、今回はdrink,foorのいずれにおいても詳細ページからボタンを押すことによって、お気に入りの設定をすることができるようにした為である。
+この時にお気に入りに登録した情報を保存し、Mypage で参照する際に使用することができるようにするためにこれらの2つのテーブルを定義した。以下に追加したテーブルを示す。
+さらに、それぞれの視覚的イメージを補うために、Food,Drink,Shopテーブルに関しては、今回サンプルコードを参考にし、 画像情報を保持すべき関係にpict属性を追加した。以下に本ホームページの作成に使用したスキーマとしてCREATE文を示す。
+<pre>
+    <code>
+create table LoginUser (
+	username varchar,
+	password varchar,
+	birth varchar,
+	pict varchar 
+);
+
+CREATE TABLE Favorites (
+    user_id varchar,
+    drink_id varchar
+);
+
+CREATE TABLE Favoritesfood (
+    user_id varchar,
+    food_id varchar
+);
+  
+create table drink (id int primary key, drinkName varchar ,price int,kcal int, size varchar , discription varchar, season varchar ,TypeTempId varchar, pict varchar ,foreign key (season) references season(id),foreign key (TypeTempId) references Typetemp(id) );
+create table food (id int primary key, foodName varchar ,price int,kcal int,pict varchar );
+create table topping (id int primary key, topName varchar ,price int );
+create table Typetemp (id int primary key, typeName varchar ,temp int );
+create table drink_food (drink_id int ,food_id int ,primary key (drink_id, food_id ) );
+create table drink_topping ( drink_id int ,topping_id int ,primary key (drink_id, topping_id ) );
+create table shop (id int primary key, shopName varchar ,region_id varchar, type_id varchar, pict varchar,foreign key (region_id) references region(id),  foreign key (type_id) references ShopType(id) );
+create table region (id varchar primary key, regionName varchar ,area varchar );
+create table shop_drink (shop_id int, drink_id int, primary key ( shop_id, drink_id)  );
+create table shop_food ( shop_id int , food_id  int ,primary key ( shop_id , food_id));
+create table ShopType ( id varchar  primary key , typeName varchar , avg_price int );
+create table season (id varchar primary key, start_at_month int , end_at_month int );
+
+create view drinkreccomend as
+select d.drinkName, f.foodName
+from drink d
+inner join drink_food df on d.id = df.drink_id
+inner join food f on df.food_id = f.id;
+    </code>
+</pre>
+<style>
+    pre {
+        margin: 1em 0;
+        padding: 1em;
+        border-radius: 5px;
+        background: #25292f;
+        color: #fff;
+        overflow-x: auto; /* ⭐ */
+        -webkit-overflow-scrolling: touch; /* ⭐ */
+      }
+</style>
+
+            </div>
+            <br><br>
+            <p class="title is-2">
+               2. Webアプリの概要
+            <div class="content">
+              このアプリは,フードページ、ドリンクページ、ショップページ、Ｍｙｐａｇｅがあり、それぞれ詳細ページに飛んで詳細情報を見たり、Mypage からは自分のお気に入りの食べ物やドリンクの閲覧や自分の情報の編集を行うことが出来る.
+	      ログインした状態ではないと、Home画面以外のページがみれない為、初回に使用する時は新たにSignupする必要がある。
+プロフィールの画像はpng,jpegもしくはjpg形式を用いる。
+
+            </div>
+	    <br><br>
+
+            <p class="title is-2">
+                3.Webアプリのエンドポイント、使用したSQL文、及び実装上の工夫
+            </p>
+            <div style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 10px;">
+            <div class="content">
+                <br>
+             <font size ="5">  @app.route('/')</font><br>
+	        この画面は、このホームページに記載されている全てのカテゴリを写真と文章で説明しており、それぞれに適切な写真が挿入されている。<br>
+	     
+	     ・SQL文:<br>
+	     ユーザーのログイン情報を取得 :<br>
+	     'SELECT * FROM LoginUser WHERE username = ?'<br>
+	     ・工夫した点:<br>
+	     各画面のイメージ画像を置くことでHome画面でホームページの全体像が分かるようにした。また、今回のテーマにあった画像を選ぶことで全体に統一感を与えた。
+	     ユーザーインターフェースに関しては、情報の強度が均一である時に有効だとされるZ型、ユーザーの視線が左上→右上→左下、右下と移動することに焦点を当てた型、に倣って画像やテキストを配置する工夫を施した。
+         以下に、Z型の視線誘導について示す。
+            
+	     <br>
+         <div style="text-align: center">
+         <img src="https://fastcoding.jp/blog/wp-content/uploads/2021/12/9242f08b11da8cb24102c62fc241304b.png" width="400px" height="400px">
+         </div>
+         <br>
+            </div>
+
+	     
+         <div style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 10px;">
+	     <font size ="5">  @app.route("/food", methods=["GET", "POST"])</font><br>
+	     この画面では、Foodの一覧画面である。
+	     デフォルトでは、全ての食べ物が表示されており、一番上に検索欄が設けられている 。検索フォームでは、文字を入れることで調べたいFoodが検索でき、絞り込まれた後に表示されているFoodの数は集約関数であるcountを用いることで画面上部の右側に出力される。<br>
+	     ・SQL文:<br>
+	     検索された時に実行されるSQL<br>
+	     SELECT * FROM food WHERE food.foodName LIKE ? ORDER BY food.id<br>
+	     
+	     ・工夫した点:<br>
+	     　ユーザーインターフェースという観点から、まず、一番の部分に画像を入れることでHome画面との統一感を生み出した。 また、それぞれのFoodのカードは、ユーザーの視線が、左上→右上→少し下に下がって左→右→下　と動くことを配慮してF型に配置した。
+	       実際に、商品ページや記事ページの多くが「F型」レイアウトになっているという。以下に、F型の視線誘導について示す。
+	     <br>
+         <div style="text-align: center">
+         <img src="https://fastcoding.jp/blog/wp-content/uploads/2021/12/0a8efd28512a201314168f7ecd4a465c.png" width="400px" height="200px">
+         </div>
+         <br>
+        </div>
+
+         <br>
+         <br>
+
+         <div style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 10px;">
+         <font size ="5">  @app.route("/food/<id>")</font><br>
+         <font size ="5"> @app.route("/add_favoritefood", methods=['POST'])</font><br>
+ このページはそれぞれのトップページから各foodを押すことによって表示されるページであり、そのタップされた写真、名前、それに関する様々な情報(値段やカロリーなど)の情報を取得して示している。さらに、Foodページにおいては、FoodとDrinkにも合う組み合わせが存在するため、FooddetailではそのFoodにあうDrinkをページ下部のMatching！という部分に示し、その部分を押すと、提示された商品のdetailページに飛ぶことが出来るようにした。
+ このようにすることで、ユーザーの購買意欲を高め、様々な商品に興味を持ってもらうことが可能であると考えた。<br>また、お気に入り登録ボタンがあるため、そのボタンを押すと、「お気に入りに追加しました！」というメッセージが表示され、商品がお気に入り登録され、Mypage に反映される。ただし、そのボタンは一回しか押すことが出来ず、2回目以降は「既に登録されています」というメッセージが出る。<br>
+
+ ・SQL文:<br>
+FoodのIDの取得:<br>
+SELECT * FROM food f WHERE f.id = ?<br>
+お気に入りドリンクの取得:<br>
+SELECT * FROM drink d  JOIN  drink_food df ON df.drink_id=d.id  WHERE  df.food_id = ?
+<br>
+・工夫した点<br>
+インターフェースの観点では、まず、頭にFoodページと同じ大きさの画像を張り付けることで全体に統一感を持たせた。というのも、このような統一感は
+ユーザーにとって今している動作を把握し、使いやすさにも影響すると考えたためである。
+また、ページ中央左にbackボタンを付けることでFoodのページに繋がるようにした。
+お気に入り設定においては、データベースへのデータの挿入を行うことで実現した。具体的には、まず、ユーザーがボタンをクリックすると、JavaScriptがAjaxリクエストを生成し、サーバーにお気に入りの食べ物のIDを送信する。サーバー側では、送信されたIDを受け取り、データベースにお気に入りの食べ物として追加した。
+さらに、データベースに格納しているため、ユーザーのIDに対応するお気に入りの食べ物を保存することで後での参照を可能にした。
+また、ここでは、Ajaxを使用して非同期にデータベースにデータを追加しているため、ページがリロードされなくとも、データの追加が行われ、データベースへの追加が成功した場合は、「お気に入りに追加しました」と、既に同じお気に入りが登録されている場合は、「既に登録されています」というテキストを表示するようにした。
+<br>
+   <div style="text-align: center">
+    <img src="static/pict/favyes.png" width="400px" height="400px"> 
+     <img src="static/pict/favno.png" width="400px" height="400px">
+    </div>
+</div>
+
+<br><br>
+<br>
+<div style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 10px;">
+<font size ="5"> @app.route("/drink", methods=["GET", "POST"])</font><br>
+    <font size ="5"> @app.route("/add_favorite", methods=['POST'])</font><br>
+    この画面もドリンクの一覧と検索の仕組みはFood画面と同じであり、デフォルトではすべてのドリンクが表示されている。検索もFood画面と同様である。ここでは、さらに、drink type　という欄があり、All,Coffee,Tea,Frapというボタンが存在する。これは、それぞれのドリンクのタイプを表しており、例えば、Coffeeのボタンを押すと、カテゴリがCoffeeであるドリンクの一覧が表示されるようになっている。
+    また、それぞれのカードにはサイズも記入した(今回はすべてTallの設定だったが数が増えれば有効だと考えられる)<br>
+・SQL文:<br>
+絞り込みボタンが押された時のそれぞれの処理:<br>
+SELECT * FROM drink<br>
+SELECT * FROM drink WHERE drink.TypeTempId = 'Cof1' OR drink.TypeTempId = 'Cof2' ORDER BY drink.id<br>
+SELECT * FROM drink WHERE drink.TypeTempId = 'Tea1'  OR drink.TypeTempId = 'Tea2' ORDER BY drink.id<br>
+SELECT * FROM drink WHERE drink.TypeTempId = 'Frap'  ORDER BY drink.id<br>
+検索に必要なSQL:<br>
+SELECT * FROM drink WHERE drink.drinkName LIKE ? ORDER BY drink.id<br>
+SELECT * FROM drink
+<br>
+・工夫した点:<br>
+これは、Food画面と同様であるが、一番上にドリンクを連想させる画像を配置することで全体の統一感と、その画面をみた時に
+何を示しているのかを分かりやすくした。カードの配列方法はfoodと同じ理由である。
+また、Foodではなかったが、Drinkではカテゴリによって絞り込みのボタンを付けることで、比較的種類の多いDrinkの中からユーザーが効率的に目的のDrinkを探すことができるようにした。
+お気に入りボタンはfoodと同様に実装した。以下にFrapというタグを押して、フラペチーのに絞った例を示す.
+<br>
+<div style="text-align: center">
+    <img src="static/pict/sort.png" width="400px" height="400px"> 
+    
+    </div>
+</div>
+
+<br><br>
+<br>
+
+<div style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 10px;">
+<font size ="5"> @app.route("/drink/<id>", methods=['GET', 'POST'])</font><br>
+このページはそれぞれのトップページから各ドリンクを押すことによって表示されるページであり、そのタップされた写真、名前、それに関する様々な情報(値段やカロリーなど)の情報を取得して示している。
+さらに、特定のDrinkに合うFoodが存在するため、そのdrinkをページ下部に示し、その部分を押すと、提示された商品のdetailページに飛ぶことが出来る。
+また、お気に入り登録ボタンがあるため、そのボタンを押すと、商品がお気に入り登録され、Mypage に反映される。ただし、そのボタンは一回しか押すことが出来ず、2回目以降は「既に登録されています」というメッセージが出るようエラー処理を行った。<br>
+・SQL文<br>
+お気に入りに格納するSQL:
+INSERT INTO Favorites (user_id, drink_id) VALUES (?, ?)<br>
+詳細情報の取得:
+SELECT * FROM drink d WHERE d.id = ?<br>
+SELECT * FROM topping t JOIN drink_topping dt ON t.id = dt.topping_id WHERE dt.drink_id = ?  <br>
+SELECT * FROM food f JOIN  drink_food df ON df.food_id=f.id  WHERE  df.drink_id = ?<br>
+
+・工夫した点:<br>
+FoodDetailPgeと同じ。 
+</div>
+
+<br><br>
+<br>
+
+<div style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 10px;">
+<font size ="5"> @app.route("/shop", methods=["GET", "POST"])</font><br>
+この画面では、一覧、検索、そして絞り込みボタンのすべてにおいてDrink画面と同じ仕様である。
+今回の絞り込みは、都府県別である点のみ異なる点である。<br>
+・SQL文<br>
+絞り込みボタンが押された時の処理:
+SELECT * FROM shop JOIN region ON shop.region_id = region.id WHERE region.regionName = '北海道' ORDER BY shop.id  <br>
+SELECT * FROM shop JOIN region ON shop.region_id = region.id WHERE region.regionName = '東京' ORDER BY shop.id  <br>
+SELECT * FROM shop JOIN region ON shop.region_id = region.id WHERE region.regionName = '愛知' ORDER BY shop.id  <br>
+SELECT * FROM shop JOIN region ON shop.region_id = region.id WHERE region.regionName = '京都' ORDER BY shop.id  <br>
+<br>
+検索ボタンが押された時の処理:
+SELECT * FROM shop  WHERE shop.shopName LIKE ? ORDER BY shop.id  , <br>
+SELECT * FROM shop<br>
+
+・工夫した点<br>
+drinkdetailpageと同様である。
+</div>
+
+<br><br><br>
+
+<div style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 10px;">
+<font size ="5"> @app.route("/shop/<id>")</font><br>
+このページはそれぞれのトップページから各店舗を押すことによって表示されるページであり、そのタップされた写真、名前、それに関する様々な情報(所在する都道府県など)の情報を取得して示している。
+  さらに、店舗で販売されているDrinkとFoodには店舗によって少しずつ違いがあるため、ページの下部に、その店舗で取り扱っているdrinkとfoodを記載し、それぞれの詳細ページに飛ぶようにした。
+  <br>
+・SQL文<br>
+詳細情報の取得<br>
+SELECT * FROM  shop s  WHERE s.id = ?<br>
+SELECT *  FROM region r WHERE r.id = ?<br>
+SELECT *  FROM ShopType st WHERE st.id = ?<br>
+SELECT * FROM drink  JOIN shop_drink sd ON sd.drink_id = drink.id WHERE sd.shop_id =?<br>
+SELECT * FROM food  JOIN shop_food sf ON sf.food_id = food.id WHERE sf.shop_id =?<br>
+・工夫した点:<br>
+fooddetailpageと同じ。
+</div>
+
+
+<br><br>
+
+<div style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 10px;">
+<font size ="5"> @app.route('/Mypage')</font><br>
+この画面では、自分のユーザー情報、具体的には、名前と好きなもの、プロフィール画像の閲覧、それの編集、さらにユーザー情報自体を削除することも可能である。
+また、ページ下部には、表が表示されており、表のタブを選択することで、自分がお気に入り登録したfood、Drinkをそれぞれ見ることが出来る。
+		   <br>
+・SQL文<br>
+マイページで表示するそれぞれの情報を取得<br>
+SELECT * FROM Favorites"<br>
+SELECT * FROM LoginUser WHERE username = ?<br>
+SELECT * FROM Favorites f JOIN drink ON drink.id = f.drink_id WHERE f.user_id = ?<br>
+SELECT * FROM Favoritesfood ff JOIN food ON food.id=ff.food_id  WHERE user_id = ?
+		   <br>
+		   ・工夫した点<br>
+		   表示する項目を羅列するのではなく、ボタンで切り替えるようにすることでユーザーインターフェースを意識し、より見やすく使いやすい表現になるように工夫した。
+<br>
+           <div style="text-align: center">
+            <img src="static/pict/mypage.png" width="400px" height="400px"> 
+            </div>
+        </div>
+
+<br><br>
+<br>
+<font size ="5"> @app.route("/edit_user", methods=["GET", "POST"])</font> <br>
+Mypageの編集ページでは、自分のユーザー情報を編集することが出来る。具体的には、ログインしているユーザーの情報をとってきた上で表示する。 それぞれ再入力することができるようにするが、画像などに対してはバリエーションを行い、条件を満たしたら、SQL文によってDBに書き込みを行う。
+<br>
+
+・SQL文<br>
+データの取得:
+SELECT * FROM LoginUser WHERE username = ?<br>
+データの更新: 
+ UPDATE LoginUser SET birth=?, pict=? WHERE username=?
+		   <br>
+		   
+・工夫した点:<br>
+好きなものやプロフィール画像は多くのSNSアプリでも変更画面が設けられているため、それに倣い、このようなページを設けることで最新の情報を共有することができるようにした。
+</div>
+
+<br><br><br>
+
+<div style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 10px;">
+<font size ="5"> @app.route("/delete_user", methods=["GET", "POST"])</font><br>
+Mypage において、Deleteボタンを押すことでそのユーザーの情報を削除することが出来る。
+ここで、誤操作を防ぐために、確認画面を設け、二段階の確認を行った。<br>
+・SQL文<br>
+SELECT username FROM LoginUser L WHERE L.username = ? <br>
+DELETE FROM LoginUser WHERE username = ?<br>
+・工夫した点<br>
+削除に関しては、間違えて押してしまうことがあるため、二段階認証を分かりやすく設け、誤操作を防ぐという工夫をした。
+<br>
+<div style="text-align: center">
+    <img src="static/pict/ensure.png" width="400px" height="400px"> 
+    </div>
+</div>
+
+<br><br>
+<br>
+<div style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 10px;">
+<font size ="5"> @app.route('/report')</font><br>
+ここには、今回のレポート記載している。<br>
+・SQL文:<br>
+なし
+<br>
+・工夫した点:<br>
+レポートはどしても文字数が多くなってしまうので、HTMMLでタイトルなどを設定して視覚的に読みやすくなるよう工夫した。
+また、コードの挿入や、実際の画面を挿入することで、動作をしなくとも一画面で内容が完結するように工夫をした。
+</div>
+
+<br><br><br>
+
+<div style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 10px;">
+<font size ="5"> @app.route('/login', methods=['GET', 'POST'])</font><br>
+その時ログインしていなければ、ログインまたはのサインアップのページになる。
+ログアウトしていた時は、このページにより、既存ユーザーとしてログインするか、もしくは、新しいユーザーとしてsignupすることが出来る。<br>
+・SQL文<br>
+ユーザーのパスワードとユーザーネームの認証:<br>
+'SELECT * FROM LoginUser WHERE username = ? AND password = ?'
+<br>
+・工夫した点<br>
+Loginするにあたっては、サインインの時にパスワードをハッシュ値にした後にデータベースに格納したため、ハッシュ値変換前のパスワードに戻す作業を行うことで、
+セキュリティ面での安全性を担保した。
+</div>
+
+<br><br>
+
+<br>
+<div style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 10px;">
+<font size ="5"> @app.route('/logout')</font>
+このページはその時ユーザーがログインしていれば、ログアウトされ、SignupまたはLoginの画面が表示される。<br>
+・SQL文<br>
+なし
+・工夫した点<br>
+特になし
+</div>
+
+<br><br>
+<br>
+
+<div style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 10px;">
+<font size ="5"> @app.route('/signup', methods=['GET', 'POST'])</font><br>
+この画面においては、新たなユーザーを追加することが出来る。ユーザーの登録には、ユーザー名、パスワード、好きなもの、プロフィール写真を登録することとした。ただし、既にデータベースに名前が登録されている場合には、重複で登録が出来ないよう、エラー処理を行った。<br>
+・SQL文<br>
+ユーザー情報がすでにDBに登録されているかの確認:
+'SELECT * FROM LoginUser WHERE username = ?'<br>
+新規のユーザーのDBへの挿入:
+INSERT INTO LoginUser (username, password,birth,pict) VALUES (?, ?,?,?)'
+<br>
+・工夫した点<br>
+まず、新規のユーザーを次々に追加していく必要があったので、LoginUserというテーブルをデータベースに作ることで、多くのユーザーの参照と蓄積を可能にした。
+さらに、バリデーションという観点から、username、passwordは３文字以上になるようにバリデーションを設け、ユーザーの登録にミスが起きないように考慮した。
+また、全てを必須項目として、入力形式が間違っているか、もしくは未入力の部分がある場合にはそれに応じたエラーメッセージをそれぞれ表示した。
+これらの要件を全てクリアして、新規のユーザーを登録することになった場合は、セキュリティの観点から、ユーザーのパスワードは機密性の高いものであるため、格納する時にハッシュ値に変換してから
+格納することで安全性を担保した。
+</div>
+
+
+<br><br>
+
+	    <p class="title is-2">
+                4.考察・感想
+            </p>
+            <div class="content">
+              今回の課題のように、データベースの設計からアプリのデザイン決定、そして実装まで全て自分一人で行った経験は初めてだった。
+実際、インターンなどでは共同開発によりFlutter を用いてフロントサイドの開発には触れているものの、HTMLやCSS,さらにはFlaskなどは触るのが初めてであり、
+初めての言語ということで言語の根本的な理解から行った。また、使用しているパソコンがWindowsであるため、リモートデスクトップ特有のエラーや作業効率などにも苦労してしまった。感想としては、初めは全く分からず難しかったが、
+毎日繰り返すことで知識量が少しずつ増えていき、最終的にはデータの参照方法はもちろん、UIなどを考えながら楽しんで作ることが出来た。
+データベースの作成、及び応用という観点からすると、このデータベモデリングの授業を通してSQLの基本からその応用まで学ぶことが出来た。
+初めは、SQLの定義式やテーブルの操作なども分からなかったが、最終的に今回のアプリのように自分のデータベースを用いてアプリを作ることが出来たので、
+正規化の必要性やテーブル結合の必要性、ビューの必要性も身をもって感じることができ、今後データベースを作成する際にも最終的に何をしたいのか、何を作りたいのか、
+という目的意識をきちんともって行いたいと思った。<br>
+
+　アプリの作成という観点から見ると、作成には今迄の知識を総動員したと思う。というのも、本課題の中枢であるデータベースから値を引っ張ってくることは、ＳＱＬの知識やFlaskの知識、さらには、Pythonの
+知識も必要であるためである。さらに、一つのアプリであるので、ヒューマンインタフェースを考える必要もあり、これも授業では履修していたが、実践するのは初めてだったので、配置やボタンなどそれらの知識を
+活かすことが出来たと思う。<br>
+　反省点としては、途中で格納するものを変えたため、データベースの名前と実際に入るデータが異なる部分が残ってしまったこと、また、作成したデータベースをすべて使用しなかったことである。後者に関しては、一度
+使用して追加してみたものの、ＵＩや使いやすさの観点から絞り込みが多過ぎると混乱すると判断したため、今回のような機能のみを搭載することとした。今後は、最終的なアプリの形式をより具体的にイメージすることで
+このようなことがないよう、データベースの設計という観点で失敗を活かしたいと思った。<br><br>
+　以上のように、最終課題は簡単なものではなかったが、これまでの知識を実践したり、沢山のアドバイスを先生にも頂いたため、SQLのに関する理解も深まり、最終的には非常に興味を持つことが出来たので良かった。
+今後、いずれの分野においてもこのような基本的なバックエンドの知識やアプリ開発技術は必要になってくると感じるため、今回つまずいてしまった部分や学習した点を今後に生かしていきたいと思った。
+
+
+
+<br><br><br>
+	     </div>
+         <div style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 10px;">
+         <p class="title is-5">
+            参考文献
+        </p>
+         <div class = "content">
+            視線誘導とは？視線の法則をUIデザインに活用しよう,FACTCODING BLOG, <br>
+            https://fastcoding.jp/blog/all/direction/gaze/ <br>
+            <br>
+            HTML＆CSSのサンプル紹介【シングルカラムレイアウト編】,みやしもブログ,2022<br>
+            https://miya-system-works.com/blog/detail/html-sample-layout/<br>
+            <br>
+            HTMLレイアウトはたった５つの型で,ウェブカツブログ,2021<br>
+            https://webukatu.com/wordpress/blog/13432/ <br>
+            <br>
+            レイアウトで選ぶWebデザイン・HTMLテンプレート40個総まとめ 2018年版,PhotoSohpVip,2018<br>
+            https://photoshopvip.net/111506 <br>
+
+            codeタグ,catnose,2020<br>
+            https://proengineer.internous.co.jp/content/columnfeature/5124<br>
+            <br>
+            写真素材・AI画像素材を無料ダウンロード「ぱくたそ」<br>
+            https://www.pakutaso.com/<br>
+	    <br><br>
+         </div>
+        </div>
+    </section>
+
+
+<!-- notificationを自動的に閉じる -->
+<script>
+    $("#announce").delay(2000).slideUp();
+</script>
+{% endblock %}
+

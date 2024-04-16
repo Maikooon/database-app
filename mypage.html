@@ -1,0 +1,280 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<!-- flashメッセージを表示させる -->
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div id="announce" class="notification is-primary">
+        <button class="delete"></button>
+        <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+{% endwith %}
+
+
+<div class="wrapper">
+  <div class="container">
+    <div class="flex">
+      <figure class="image">
+        <img src="{{url_for('static', filename='pict/'+user.pict)}}" alt="user" loading="lazy" style="object-fit: cover; width: 400px; height: 400px;">
+      </figure>
+      <div class="right">
+        <p class="title is-3"><font size="6">Your Profile</font></p>
+        <p class="title is-5" style="line-height: 0.1;">Username</p>
+        <div class="content" style="line-height: 0.1;">
+          {{user[0]}}
+        </div>
+        <p class="title is-5" style="line-height: 0.1;">Birthday</p>
+        <div class="content" style="line-height: 0.1;">
+          {{user[2]}}
+        </div>
+      </div>
+    </div>
+
+    <br>
+    <br>
+
+    <div class="buttons">
+                <div class="columns is-vcentered">
+                    <div class="column">
+                            <a href="{{ url_for( 'home' ) }}" class="button is-link is-light">Back</a>
+                    </div>
+                    <!-- ここをかえて -->
+                    <div class="column">
+                            <a href="{{ url_for( 'edit_user') }}" class="button is-link is-light">Edit</a>
+                    </div>
+                    <div class="column">
+                            <a href="{{ url_for( 'delete_user' ) }}" class="button is-danger is-light">Delete</a>
+                    </div>
+                </div>
+    </div>
+
+
+    <!-- ここでタブにしてお気に入りを見れるようにする -->
+
+  
+    <ul class="tab-container">
+      <li>
+        <input class="tab-toggle" id="tab-1" type="radio" name="toggle" checked />
+        <label data-title="Tab 1" class="tab l-b" for="tab-1">Favorite Food</label>
+        <ul class="tab-content-container">
+          <li class="tab-content">
+            {% for i in favfood %}
+               <p>{{i.foodName}}</p> 
+            {% endfor %}
+            <div class="arrows">
+              <label class="back" for="tab-4">&#8249;</label>
+              <label class="next" for="tab-2">&#8250; </label>
+            </div>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <input class="tab-toggle" id="tab-2" type="radio" name="toggle" />
+        <label class="tab" for="tab-2">Favorite Drink</label>
+        <ul class="tab-content-container">
+          <li class="tab-content">
+            {% for i in fav%}
+              <p> {{i.drinkName}} </p>
+            {% endfor %}
+            <div class="arrows">
+              <label class="back" for="tab-1">&#8249;</label>
+              <label class="next" for="tab-3">&#8250; </label>
+            </div>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <input class="tab-toggle" id="tab-3" type="radio" name="toggle" />
+        <label class="tab" for="tab-3">What you can</label>
+        <ul class="tab-content-container">
+          <li class="tab-content">
+          You can save your favorite list here, which will help you in choosing drinks in the future  <div class="arrows">
+              <label class="back" for="tab-2">&#8249;</label>
+              <label class="next" for="tab-4">&#8250; </label>
+            </div>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <input class="tab-toggle" id="tab-4" type="radio" name="toggle" />
+        <label class="tab" for="tab-4">Goldn Membership</label>
+        <ul class="tab-content-container">
+          <li class="tab-content">
+             With Golden Membership, you will have the opportunity to earn points and receive exclusive updates. Please note that the Golden Membership program is currently under development, so please stay tuned for further updates.
+	    <div class="arrows">
+              <label class="back" for="tab-3">&#8249;</label>
+              <label class="next" for="tab-1">&#8250; </label>
+            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+  </div>
+</div>
+
+<!--box style-->
+<style>
+  *,
+  *:before,
+  *:after {
+    box-sizing: border-box;
+  }
+
+  .tab-container {
+    list-style-type: none;
+    padding: 0;
+    margin: 60px auto;
+    max-width: 1000px;
+    position: relative;
+    background: #fff;
+    display: 1000px;
+    margin: 0 auto;
+    margin-top: 0px;
+  }
+
+  .tab-container ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .tab-container .arrows {
+    display: block;
+    width: 60px;
+    font-size: 32px;
+    bottom: 50px;
+    right: 0px;
+    position: absolute;
+  }
+
+  .tab-container .arrows label {
+    display: inline-block;
+    cursor: pointer;
+    color: #aaa;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin-left: 5px;
+  }
+
+  .tab-container .arrows label:hover {
+    color: #333;
+  }
+
+  .tab-container .tab-content-container {
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    max-width: 1000px;
+    line-height: 22px;
+    background: #fff;
+    position: absolute;
+    top: 42px;
+    padding: 0px 40px 0 20px;
+    border: 2px solid #d6c6af;
+    border-top: 0;
+    box-shadow: 0 5px 5px -5px #333;
+  }
+
+  .tab-container .tab-content-container .tab-content {
+    opacity: 0;
+    padding: 15px 0;
+    min-height: 185px;
+    width: 950px;
+    transition: opacity 0.1s ease-in;
+  }
+
+  .tab-container .tab {
+    outline: 0;
+    float: left;
+    cursor: pointer;
+    opacity: 1;
+    width: 25%;
+    line-height: 40px;
+    display: block;
+    margin: 0;
+    position: relative;
+    background: #d6c6af;
+    color: #fff;
+    text-align: center;
+    border-top: 2px solid #d6c6af;
+    border-right: 2px solid #d6c6af;
+  }
+
+  .tab-container .tab.l-b {
+    border-left: 2px solid #d6c6af;
+  }
+
+  .tab-container .tab:hover {
+    background: #d6c6af;
+  }
+
+  .tab-container .tab-toggle {
+    display: none;
+  }
+
+  .tab-container .tab-toggle.active+.tab,
+  .tab-container .tab-toggle:checked+.tab {
+    background: #fff;
+    color: #333;
+  }
+
+  .tab-container .tab-toggle.active~.tab-content-container,
+  .tab-container .tab-toggle:checked~.tab-content-container {
+    height: auto;
+    opacity: 1;
+  }
+
+  .tab-container .tab-content-container .tab-content {
+    opacity: 1;
+  }
+
+  .flex {
+    display: flex;
+  }
+
+  .container {
+    padding: 10px;
+    /* 外側の余白を設定 */
+  }
+
+  .flex .image {
+    width: 450px;
+    margin: 0px;
+    padding: 20px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .flex .right {
+    margin: 0 0 0 20px;
+    padding: 10px;
+  }
+
+  .flex .title {
+    margin: 20px;
+    padding: 20px;
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  .flex .text {
+    margin: 10px 10px 10px;
+    padding: 0;
+  }
+</style>
+
+<!-- notificationを自動的に閉じる -->
+<script>
+  $("#announce").delay(2000).slideUp();
+</script>
+{% endblock %}

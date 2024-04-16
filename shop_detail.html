@@ -1,0 +1,192 @@
+{% extends "layout.html" %} {% block body %}
+
+<!-- flashメッセージを表示させる -->
+{% with messages = get_flashed_messages() %} {% if messages %}
+<div id="announce" class="notification is-danger">
+    <button class="delete"></button>
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %} {% endwith %}
+<section class="wrapper">
+    <div class="container">
+        <div class="content">
+            <h2 class="heading">
+                <font size="10">Shop Detail Page </font>
+            </h2>
+
+        </div>
+    </div>
+</section>
+
+<style>
+    .wrapper {
+        width: 100%;
+        height: 200px;
+        background-image: url(../static/pict/color.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+    }
+    
+    .wrapper .container {
+        max-width: 1000px;
+        margin: 0px auto;
+        padding: 80px 0px;
+    }
+</style>
+
+<section class="hero is-fullheight is-default is-bold">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <div class="columns is-vcentered">
+                <div class="column is-5">
+                    <figure class="image is-1by1">
+                        <img src="{{url_for('static', filename='pict/'+emp.pict)}}" alt="Description">
+                    </figure>
+                </div>
+                <div class="column is-6 is-offset-1">
+                    <div align="left">
+                        <h1 class="title is-2">
+                            {{emp.shopName}}
+                        </h1>
+                        <br>
+                        <div class="content">
+                            <div align="left">
+                                <font sixe="6">
+                                    <p><strong>region:</strong> {{regions.regionName}}</p>
+                                    <p><strong>type:</strong> {{types.typeName}}</p>
+                                    <p><strong>Average Price:</strong> {{types.avg_price}}</p>
+                                  
+                                </font>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="buttons">
+                <div class="columns is-vcentered">
+                    <div class="column">
+                        <a href="{{ url_for( 'shop' ) }}" class="button is-link is-light">Back</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<div class="box17">
+    <p>
+        <font size="6"> Existing Drink ! </font>
+    </p>
+    {% for i in drinklist %}
+    <p> <a href="{{ url_for('drink_master', id=i.id) }}">{{ i.drinkName }}</a></p>
+
+    {% endfor %}
+
+
+</div>
+
+<style>
+    .box17 {
+        margin-left: 300px;
+        position: relative;
+        width: 1000px;
+        height: 100px;
+        padding: 0.5em 1.5em;
+        border-top: solid 2px #d6c6af;
+        border-bottom: solid 2px #d6c6af;
+    }
+    
+    .box17:before,
+    .box17:after {
+        content: '';
+        position: absolute;
+        top: -10px;
+        width: 2px;
+        height: -webkit-calc(100% +0px);
+        height: calc(100% + 20px);
+        background-color: #d6c6af;
+    }
+    
+    .box17:before {
+        left: 10px;
+    }
+    
+    .box17:after {
+        right: 10px;
+    }
+    
+    .box17 p {
+        margin: 0;
+        padding: 0;
+    }
+</style>
+
+<br><br><br>
+
+<div class="box17">
+    <p>
+        <font size="6">Existing Food ! </font>
+    </p>
+    <br> {% for i in foodlist %}
+    <p> <a href="{{ url_for('food_master', id=i.id) }}">{{ i.foodName }}</a></p>
+    {% endfor %}
+
+    </font>
+    </p>
+</div>
+
+
+<br><br><br><br>
+
+<style>
+    .box17 {
+        margin-left: 350px;
+        position: relative;
+        width: 1000px;
+        height: 250px;
+        padding: 0.5em 1.5em;
+        border-top: solid 2px #d6c6af;
+        border-bottom: solid 2px #d6c6af;
+    }
+    
+    .box17:before,
+    .box17:after {
+        content: '';
+        position: absolute;
+        top: -10px;
+        width: 2px;
+        height: -webkit-calc(100% +0px);
+        height: calc(100% + 20px);
+        background-color: #d6c6af;
+    }
+    
+    .box17:before {
+        left: 10px;
+    }
+    
+    .box17:after {
+        right: 10px;
+    }
+    
+    .box17 p {
+        margin: 0;
+        padding: 0;
+    }
+</style>
+
+
+<script>
+    $("#announce").delay(2000).slideUp();
+</script>
+
+
+
+{% endblock %}
