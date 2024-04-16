@@ -3,16 +3,16 @@
 {% block body %}
 <!-- flashメッセージを表示させる -->
 {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <div id="announce" class="notification is-primary">
-        <button class="delete"></button>
-        <ul>
+{% if messages %}
+<div id="announce" class="notification is-primary">
+    <button class="delete"></button>
+    <ul>
         {% for message in messages %}
-            <li>{{ message }}</li>
+        <li>{{ message }}</li>
         {% endfor %}
-        </ul>
-    </div>
-    {% endif %}
+    </ul>
+</div>
+{% endif %}
 {% endwith %}
 
 <section class="wrapper">
@@ -20,50 +20,55 @@
         <div class="content">
             <h2 class="heading">Welcome! </h2>
             <div class="list">
-               
+
+            </div>
         </div>
-    </div>
 </section>
 
 <style>
-.wrapper{
-    width:100%;
-    background-image:url("https://thumb.photo-ac.com/25/25c253d6460327342a033c9497ac4c60_t.jpeg");
-    background-repeat:no-repeat;
-    background-size:cover;
-    background-position: center center;
-}
-.wrapper .container{
-    max-width:1000px;
-    margin:0px auto;
-    padding:80px 0px;
-}
-/* content */
-.wrapper .content .heading{
-    margin:0px 0px 40px 0px;
-    color:#d6c6af;
-    font-size: 48px;
-    font-weight: normal;
-    text-align: left;
-}
-@media (min-width: 992px) {
-    .wrapper .content .list {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .wrapper {
+        width: 100%;
+        background-image: url("https://thumb.photo-ac.com/25/25c253d6460327342a033c9497ac4c60_t.jpeg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
     }
-}
-.wrapper .content .list-item {
-    padding:30px;
-    line-height:1.8rem;
-    color:#ffffff;
-    text-align:center;
-}
-@media (min-width: 992px) {
+
+    .wrapper .container {
+        max-width: 1000px;
+        margin: 0px auto;
+        padding: 80px 0px;
+    }
+
+    /* content */
+    .wrapper .content .heading {
+        margin: 0px 0px 40px 0px;
+        color: #d6c6af;
+        font-size: 48px;
+        font-weight: normal;
+        text-align: left;
+    }
+
+    @media (min-width: 992px) {
+        .wrapper .content .list {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
     .wrapper .content .list-item {
-        width:50%;
+        padding: 30px;
+        line-height: 1.8rem;
+        color: #ffffff;
+        text-align: center;
     }
-}
+
+    @media (min-width: 992px) {
+        .wrapper .content .list-item {
+            width: 50%;
+        }
+    }
 </style>
 
 <!--222222 -->
@@ -71,12 +76,17 @@
     <div class="container">
         <div class="content">
             <div class="content-item">
-                <img src="https://images.pexels.com/photos/2575835/pexels-photo-2575835.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" class="image">
-            </div>    
+                <img src="https://images.pexels.com/photos/2575835/pexels-photo-2575835.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                    class="image">
+            </div>
             <div class="content-item">
                 <div class="text">
                     <h2 class="heading">VISION</h2>
-                    <p>This application will consist of four main sections: the Food page, the Drink page, the Shop page, and My Page. Users will be able to navigate to the detailed pages for each section, where they can access comprehensive information. Additionally, on the My Page section, users will have the option to view their favorite food and drink items, as well as edit their personal information.</p>
+                    <p>This application will consist of four main sections: the Food page, the Drink page, the Shop
+                        page, and My Page. Users will be able to navigate to the detailed pages for each section, where
+                        they can access comprehensive information. Additionally, on the My Page section, users will have
+                        the option to view their favorite food and drink items, as well as edit their personal
+                        information.</p>
                 </div>
             </div>
         </div>
@@ -85,50 +95,58 @@
 
 
 <style>
-.wrapper2{
-    width:100%;
-    height:50%;
-    background-color:#fafafa;
-    
-    background-size: cover; /* 要素の幅・高さに合わせて写真を拡大・縮小 */
-    background-size: contain; /* 要素内に写真を収めるように拡大・縮小 */
-}
-.wrapper2 .container{
-    max-width:1000px;
-    margin:0px auto;
-    padding:80px 0px;
-}
-/* content */
-@media (min-width: 992px) {
-    .wrapper2 .container .content {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-}
-.wrapper2 .content-item {
-    width:100%;
-}
-@media (min-width: 992px) {
-    .wrapper2 .content-item {
-        width:50%;
-    }
-}
-.wrapper2 .image{
-    display:block;
-    max-width:100%;
-    margin:0px auto;
-}
-.wrapper2 .text{
-    padding:50px;
-}
-.wrapper2 .text .heading{
-    margin:0px 0px 40px 0px;
-    font-size: 24px;
-    font-weight: normal;
-    text-align: center;
-}
+    .wrapper2 {
+        width: 100%;
+        height: 50%;
+        background-color: #fafafa;
 
+        background-size: cover;
+        /* 要素の幅・高さに合わせて写真を拡大・縮小 */
+        background-size: contain;
+        /* 要素内に写真を収めるように拡大・縮小 */
+    }
+
+    .wrapper2 .container {
+        max-width: 1000px;
+        margin: 0px auto;
+        padding: 80px 0px;
+    }
+
+    /* content */
+    @media (min-width: 992px) {
+        .wrapper2 .container .content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    .wrapper2 .content-item {
+        width: 100%;
+    }
+
+    @media (min-width: 992px) {
+        .wrapper2 .content-item {
+            width: 50%;
+        }
+    }
+
+    .wrapper2 .image {
+        display: block;
+        max-width: 100%;
+        margin: 0px auto;
+    }
+
+    .wrapper2 .text {
+        padding: 50px;
+    }
+
+    .wrapper2 .text .heading {
+        margin: 0px 0px 40px 0px;
+        font-size: 24px;
+        font-weight: normal;
+        text-align: center;
+    }
 </style>
 
 
@@ -140,17 +158,23 @@
             <div class="list">
                 <div class="list-item">
                     <img src="https://www.pakutaso.com/shared/img/thumb/coffee20160715165504.jpg" class="image">
-                    <div class="text"><font size = "5">drink</font></div>
-		    <p></p>
+                    <div class="text">
+                        <font size="5">drink</font>
+                    </div>
+                    <p></p>
                 </div>
                 <div class="list-item">
                     <img src="https://thumb.photo-ac.com/70/70f6336bd69d810f1071fec854cd5f68_w.jpeg" class="image">
-                    <div class="text"><font size = "5">food</font></div>
-		    
-                </div>    
+                    <div class="text">
+                        <font size="5">food</font>
+                    </div>
+
+                </div>
                 <div class="list-item">
                     <img src="https://thumb.photo-ac.com/25/25c253d6460327342a033c9497ac4c60_t.jpeg" class="image">
-                    <div class="text"><font size ="5">shop</font></div>
+                    <div class="text">
+                        <font size="5">shop</font>
+                    </div>
                 </div>
             </div>
         </div>
@@ -159,51 +183,58 @@
 
 
 <style>
-.wrapper3{
-    width:100%;
-}
-.wrapper3 .container{
-    max-width:1000px;
-    margin:0px auto;
-    padding:80px 0px;
-}
-/* content */
-.wrapper3 .content .heading{
-    margin:0px 0px 40px 0px;
-    font-size: 24px;
-    font-weight: normal;
-    text-align: center;
-}
-@media (min-width: 992px) {
-    .wrapper3 .content .list {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .wrapper3 {
+        width: 100%;
     }
-}
-.wrapper3 .content .list-item {
-    margin:50px 0px;
-    padding:0px 50px;
-    text-align:center;
-}
-@media (min-width: 992px) {
+
+    .wrapper3 .container {
+        max-width: 1000px;
+        margin: 0px auto;
+        padding: 80px 0px;
+    }
+
+    /* content */
+    .wrapper3 .content .heading {
+        margin: 0px 0px 40px 0px;
+        font-size: 24px;
+        font-weight: normal;
+        text-align: center;
+    }
+
+    @media (min-width: 992px) {
+        .wrapper3 .content .list {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
     .wrapper3 .content .list-item {
-        margin:0px;
-        width:calc(100% / 3);
+        margin: 50px 0px;
+        padding: 0px 50px;
+        text-align: center;
     }
-}
-.wrapper3 .content .list-item .image{
-    display:block;
-    width:100%;
-    max-width:300px;
-    margin:0px auto 20px auto;
-    border-radius:100%;
-}
-.wrapper3 .content .list-item .text{
-    line-height:1.8rem;
-    font-size:0.8rem;
-    color:#666666;
-}
+
+    @media (min-width: 992px) {
+        .wrapper3 .content .list-item {
+            margin: 0px;
+            width: calc(100% / 3);
+        }
+    }
+
+    .wrapper3 .content .list-item .image {
+        display: block;
+        width: 100%;
+        max-width: 300px;
+        margin: 0px auto 20px auto;
+        border-radius: 100%;
+    }
+
+    .wrapper3 .content .list-item .text {
+        line-height: 1.8rem;
+        font-size: 0.8rem;
+        color: #666666;
+    }
 </style>
 
 <section class="wrapper4">
@@ -211,11 +242,13 @@
         <div class="content">
             <div class="content-item">
                 <img src="https://user0514.cdnw.net/shared/img/thumb/gori0I9A3053072102529_TP_V.jpg" class="image">
-            </div>    
+            </div>
             <div class="content-item">
                 <div class="text">
                     <h2 class="heading">Report</h2>
-                    <p>This is my final report on Data Modeling. It includes my efforts and innovative approaches in creating this application. Please take a look and feel free to explore the details of what I have accomplished and implemented in this project.</p>
+                    <p>This is my final report on Data Modeling. It includes my efforts and innovative approaches in
+                        creating this application. Please take a look and feel free to explore the details of what I
+                        have accomplished and implemented in this project.</p>
                 </div>
             </div>
         </div>
@@ -223,53 +256,60 @@
 </section>
 
 <style>
-.wrapper4{
-    width:100%;
-    height:70%;
-    background-color:#fafafa;
-}
-.wrapper4 .container{
-    max-width:1000px;
-    margin:0px auto;
-    padding:80px 0px;
-}
-/* content */
-@media (min-width: 992px) {
-    .wrapper4 .container .content {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .wrapper4 {
+        width: 100%;
+        height: 70%;
+        background-color: #fafafa;
     }
-}
-/* PC時のみ順番を入れ替える */
-@media (min-width: 992px) {
-    .wrapper4 .content {
-        flex-direction:row-reverse;
-    }
-}
-.wrapper4 .content-item {
-    width:100%;
-}
-@media (min-width: 992px) {
-    .wrapper4 .content-item {
-        width:50%;
-    }
-}
-.wrapper4 .image{
-    display:block;
-    max-width:100%;
-    margin:0px auto;
-}
-.wrapper4 .text{
-    padding:50px;
-}
-.wrapper4 .text .heading{
-    margin:0px 0px 40px 0px;
-    font-size: 24px;
-    font-weight: normal;
-    text-align: center;
-}
 
+    .wrapper4 .container {
+        max-width: 1000px;
+        margin: 0px auto;
+        padding: 80px 0px;
+    }
+
+    /* content */
+    @media (min-width: 992px) {
+        .wrapper4 .container .content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    /* PC時のみ順番を入れ替える */
+    @media (min-width: 992px) {
+        .wrapper4 .content {
+            flex-direction: row-reverse;
+        }
+    }
+
+    .wrapper4 .content-item {
+        width: 100%;
+    }
+
+    @media (min-width: 992px) {
+        .wrapper4 .content-item {
+            width: 50%;
+        }
+    }
+
+    .wrapper4 .image {
+        display: block;
+        max-width: 100%;
+        margin: 0px auto;
+    }
+
+    .wrapper4 .text {
+        padding: 50px;
+    }
+
+    .wrapper4 .text .heading {
+        margin: 0px 0px 40px 0px;
+        font-size: 24px;
+        font-weight: normal;
+        text-align: center;
+    }
 </style>
 
 

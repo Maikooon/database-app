@@ -1,6 +1,3 @@
-#!/bin/bash
-
-### 必要な場合以下を変更する。
 ### APP_SRCはソースコードを置くパスです。
 APP_SRC=$HOME/dm_src
 ### APP_NAMEはURIの一部になります。http://user.keio.ac.jp/~$USER/$APP_NAME/

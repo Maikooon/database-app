@@ -4,16 +4,16 @@
 
 <!-- flashメッセージを表示させる -->
 {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <div id="announce" class="notification is-primary">
-        <button class="delete"></button>
-        <ul>
-        {% for message in messages %}
-            <li>{{ message }}</li>
-        {% endfor %}
-        </ul>
-    </div>
-    {% endif %}
+{% if messages %}
+<div id="announce" class="notification is-primary">
+  <button class="delete"></button>
+  <ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
 {% endwith %}
 
 
@@ -21,10 +21,13 @@
   <div class="container">
     <div class="flex">
       <figure class="image">
-        <img src="{{url_for('static', filename='pict/'+user.pict)}}" alt="user" loading="lazy" style="object-fit: cover; width: 400px; height: 400px;">
+        <img src="{{url_for('static', filename='pict/'+user.pict)}}" alt="user" loading="lazy"
+          style="object-fit: cover; width: 400px; height: 400px;">
       </figure>
       <div class="right">
-        <p class="title is-3"><font size="6">Your Profile</font></p>
+        <p class="title is-3">
+          <font size="6">Your Profile</font>
+        </p>
         <p class="title is-5" style="line-height: 0.1;">Username</p>
         <div class="content" style="line-height: 0.1;">
           {{user[0]}}
@@ -40,24 +43,21 @@
     <br>
 
     <div class="buttons">
-                <div class="columns is-vcentered">
-                    <div class="column">
-                            <a href="{{ url_for( 'home' ) }}" class="button is-link is-light">Back</a>
-                    </div>
-                    <!-- ここをかえて -->
-                    <div class="column">
-                            <a href="{{ url_for( 'edit_user') }}" class="button is-link is-light">Edit</a>
-                    </div>
-                    <div class="column">
-                            <a href="{{ url_for( 'delete_user' ) }}" class="button is-danger is-light">Delete</a>
-                    </div>
-                </div>
+      <div class="columns is-vcentered">
+        <div class="column">
+          <a href="{{ url_for( 'home' ) }}" class="button is-link is-light">Back</a>
+        </div>
+        <div class="column">
+          <a href="{{ url_for( 'edit_user') }}" class="button is-link is-light">Edit</a>
+        </div>
+        <div class="column">
+          <a href="{{ url_for( 'delete_user' ) }}" class="button is-danger is-light">Delete</a>
+        </div>
+      </div>
     </div>
 
 
     <!-- ここでタブにしてお気に入りを見れるようにする -->
-
-  
     <ul class="tab-container">
       <li>
         <input class="tab-toggle" id="tab-1" type="radio" name="toggle" checked />
@@ -65,7 +65,7 @@
         <ul class="tab-content-container">
           <li class="tab-content">
             {% for i in favfood %}
-               <p>{{i.foodName}}</p> 
+            <p>{{i.foodName}}</p>
             {% endfor %}
             <div class="arrows">
               <label class="back" for="tab-4">&#8249;</label>
@@ -80,7 +80,7 @@
         <ul class="tab-content-container">
           <li class="tab-content">
             {% for i in fav%}
-              <p> {{i.drinkName}} </p>
+            <p> {{i.drinkName}} </p>
             {% endfor %}
             <div class="arrows">
               <label class="back" for="tab-1">&#8249;</label>
@@ -94,7 +94,8 @@
         <label class="tab" for="tab-3">What you can</label>
         <ul class="tab-content-container">
           <li class="tab-content">
-          You can save your favorite list here, which will help you in choosing drinks in the future  <div class="arrows">
+            You can save your favorite list here, which will help you in choosing drinks in the future <div
+              class="arrows">
               <label class="back" for="tab-2">&#8249;</label>
               <label class="next" for="tab-4">&#8250; </label>
             </div>
@@ -106,8 +107,10 @@
         <label class="tab" for="tab-4">Goldn Membership</label>
         <ul class="tab-content-container">
           <li class="tab-content">
-             With Golden Membership, you will have the opportunity to earn points and receive exclusive updates. Please note that the Golden Membership program is currently under development, so please stay tuned for further updates.
-	    <div class="arrows">
+            With Golden Membership, you will have the opportunity to earn points and receive exclusive updates. Please
+            note that the Golden Membership program is currently under development, so please stay tuned for further
+            updates.
+            <div class="arrows">
               <label class="back" for="tab-3">&#8249;</label>
               <label class="next" for="tab-1">&#8250; </label>
             </div>

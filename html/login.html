@@ -7,9 +7,9 @@
     <!-- エラーをflashを使わずに表示する方法の一つ -->
     <!-- html内ではNoneは小文字 -->
     {%if error != none %}
-        <div class="notification is-danger is-light">
-            {{ error }}
-        </div>
+    <div class="notification is-danger is-light">
+        {{ error }}
+    </div>
     {%endif%}
 
     <!-- ログインフォーム -->
@@ -20,7 +20,7 @@
                 <input class="input" type="text" name="username" placeholder="keio hanako">
             </div>
         </div>
-  
+
         <div class="field">
             <label class="label">Password</label>
             <div class="control">
@@ -28,11 +28,8 @@
             </div>
         </div>
         <button class="button is-primary">Login</button>
-		<a class="button is-primary is-light" href="{{url_for('signup')}}">Sign Up</a>
-		<a class="button " href="{{url_for('logout')}}">logout</a>
+        <a class="button is-primary is-light" href="{{url_for('signup')}}">Sign Up</a>
+        <a class="button " href="{{url_for('logout')}}">logout</a>
     </form>
-  </div>
+</div>
 {% endblock %}
-
-
-

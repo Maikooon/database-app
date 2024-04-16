@@ -31,7 +31,7 @@
         background-size: cover;
         background-position: center center;
     }
-    
+
     .wrapper .container {
         max-width: 1000px;
         margin: 0px auto;
@@ -60,7 +60,7 @@
                                     <p><strong>region:</strong> {{regions.regionName}}</p>
                                     <p><strong>type:</strong> {{types.typeName}}</p>
                                     <p><strong>Average Price:</strong> {{types.avg_price}}</p>
-                                  
+
                                 </font>
                             </div>
                         </div>
@@ -103,7 +103,7 @@
         border-top: solid 2px #d6c6af;
         border-bottom: solid 2px #d6c6af;
     }
-    
+
     .box17:before,
     .box17:after {
         content: '';
@@ -114,15 +114,15 @@
         height: calc(100% + 20px);
         background-color: #d6c6af;
     }
-    
+
     .box17:before {
         left: 10px;
     }
-    
+
     .box17:after {
         right: 10px;
     }
-    
+
     .box17 p {
         margin: 0;
         padding: 0;
@@ -133,13 +133,13 @@
 
 <div class="box17">
     <p>
-        <font size="6">Existing Food ! </font>
+        <size="6">Existing Food ! </size>
     </p>
     <br> {% for i in foodlist %}
     <p> <a href="{{ url_for('food_master', id=i.id) }}">{{ i.foodName }}</a></p>
     {% endfor %}
 
-    </font>
+    </size>
     </p>
 </div>
 
@@ -156,7 +156,7 @@
         border-top: solid 2px #d6c6af;
         border-bottom: solid 2px #d6c6af;
     }
-    
+
     .box17:before,
     .box17:after {
         content: '';
@@ -167,15 +167,15 @@
         height: calc(100% + 20px);
         background-color: #d6c6af;
     }
-    
+
     .box17:before {
         left: 10px;
     }
-    
+
     .box17:after {
         right: 10px;
     }
-    
+
     .box17 p {
         margin: 0;
         padding: 0;
