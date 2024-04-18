@@ -94,7 +94,7 @@ def login():
     return render_template('login.html', error=error)
 
 
-import hashlib  # Import the hashlib module for password hashing
+import hashlib  
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -304,15 +304,12 @@ def add_favoritefood():
 
     conn = get_db()
     cur = conn.cursor()
-     # Check if not  the drink is already in favorites for the user
     cur.execute('SELECT * FROM Favoritesfood WHERE user_id=? AND food_id=?', (user_id, food_id))
     existing_favoritefood = cur.fetchone()
     if existing_favoritefood:
-        # Drink is already in favorites, you can handle this case accordingly
         print("This is already add to your favorite list")
         return 'Already added to favorites', 400
    
-    #if not int the data in the data
     cur.execute('INSERT INTO Favoritesfood (user_id, food_id) VALUES (?, ?)', (user_id, food_id))
     conn.commit()
     return 'OK', 200
@@ -504,22 +501,22 @@ def delete_user():
     emp = cur.execute('SELECT username FROM LoginUser L WHERE L.username = ?', (user_id,)).fetchone()
 
     if request.method == "GET":
-        return render_template('delete_user.html', emp=emp)  # Render the confirmation template
+        return render_template('delete_user.html', emp=emp) 
 
     if request.method == "POST":
-        confirm = request.form.get('confirm')  # Check if the user confirmed the deletion
+        confirm = request.form.get('confirm')  
         if confirm == 'yes':
             try:
                 cur.execute('DELETE FROM LoginUser WHERE username = ?', (user_id,))
                 conn.commit()
                 flash(f"Deleted {emp['username']} (ID: {user_id})")
-                session.pop('user_id', None)  # Remove user_id from the session
+                session.pop('user_id', None)  
                 return redirect(url_for("login"))
             except sqlite3.Error as e:
                 print('sqlite3.Error occurred:', e.args[0])
                 return redirect(url_for("mypage", user_id=user_id))
         else:
-            flash('Deletion canceled')  # Display a message if deletion is canceled
+            flash('Deletion canceled')  
             return redirect(url_for("mypage", user_id=user_id))
 
 
